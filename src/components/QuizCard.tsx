@@ -25,6 +25,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
 }) => {
     const feedbackRef = useRef<HTMLDivElement>(null);
     const [showCoinAnim, setShowCoinAnim] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false); // Add state to show playing status
 
     // Auto-scroll to sentence when feedback appears
     useEffect(() => {
@@ -36,15 +37,23 @@ const QuizCard: React.FC<QuizCardProps> = ({
     }, [showFeedback]);
 
     const handleSpeak = (text: string, isSentence = false) => {
+        if (isPlaying) return; // Prevent overlapping playback
+
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
-        window.speechSynthesis.speak(utterance);
 
-        if (isSentence) {
-            onSentencePlay(); // Trigger coin reward
-            setShowCoinAnim(true);
-            setTimeout(() => setShowCoinAnim(false), 1000); // Reset animation
-        }
+        setIsPlaying(true);
+
+        utterance.onend = () => {
+            setIsPlaying(false);
+            if (isSentence) {
+                onSentencePlay(); // Trigger coin reward AFTER playback finishes
+                setShowCoinAnim(true);
+                setTimeout(() => setShowCoinAnim(false), 1500); // Reset animation after 1.5s
+            }
+        };
+
+        window.speechSynthesis.speak(utterance);
     };
 
     return (
@@ -66,10 +75,11 @@ const QuizCard: React.FC<QuizCardProps> = ({
                     <h2 className="text-3xl font-black text-slate-900 tracking-tight">{question.word}</h2>
                     <button
                         onClick={() => handleSpeak(question.word)}
-                        className="p-2 bg-indigo-50 text-indigo-600 rounded-full hover:bg-indigo-100 transition-colors"
+                        className={`p-2 rounded-full transition-colors ${isPlaying ? 'bg-indigo-100 text-indigo-400' : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'}`}
                         title="Listen"
+                        disabled={isPlaying}
                     >
-                        <Volume2 className="w-5 h-5" />
+                        <Volume2 className={`w-5 h-5 ${isPlaying ? 'animate-pulse' : ''}`} />
                     </button>
                 </div>
 
@@ -108,24 +118,27 @@ const QuizCard: React.FC<QuizCardProps> = ({
                                 <div className="relative">
                                     <button
                                         onClick={() => handleSpeak(question.exampleSentence || '', true)}
-                                        className="flex-shrink-0 p-3 bg-white text-indigo-600 rounded-full border-2 border-indigo-100 hover:border-indigo-300 transition-all shadow-sm active:scale-95"
-                                        title="Listen for +2 Coins!"
+                                        className={`flex-shrink-0 p-3 rounded-full border-2 transition-all shadow-sm active:scale-95 ${isPlaying ? 'bg-indigo-100 text-indigo-400 border-indigo-200 cursor-wait' : 'bg-white text-indigo-600 border-indigo-100 hover:border-indigo-300'}`}
+                                        title="Listen to end for +2 Coins!"
+                                        disabled={isPlaying}
                                     >
-                                        <Volume2 className="w-5 h-5" />
+                                        <Volume2 className={`w-5 h-5 ${isPlaying ? 'animate-pulse' : ''}`} />
                                     </button>
 
                                     {/* Floating Coin Animation */}
                                     {showCoinAnim && (
-                                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex flex-col items-center animate-float-up pointer-events-none z-50">
-                                            <div className="text-2xl filter drop-shadow-md">💰</div>
-                                            <div className="text-xs font-black text-yellow-600 bg-yellow-100 px-1 rounded border border-yellow-300">+2</div>
+                                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce-slow pointer-events-none z-50">
+                                            <div className="text-3xl filter drop-shadow-md">💰</div>
+                                            <div className="text-xs font-black text-yellow-600 bg-yellow-100 px-2 py-0.5 rounded-full border border-yellow-300 animate-pulse">+2</div>
                                         </div>
                                     )}
                                 </div>
 
                                 <div className="flex-1">
-                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-wider mb-1">
+                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-wider mb-1 flex items-center gap-1">
                                         Example Sentence
+                                        {isPlaying && <span className="text-indigo-400 animate-pulse">Playing...</span>}
+                                        {!isPlaying && !showCoinAnim && <span className="text-yellow-600 font-bold bg-yellow-50 px-1 rounded">Listening Reward</span>}
                                     </p>
                                     <p className="text-indigo-900 font-bold text-base mb-1 leading-snug">
                                         "{question.exampleSentence}"
