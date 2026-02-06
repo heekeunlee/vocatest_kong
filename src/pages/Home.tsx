@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Trophy, Zap, Play, ShoppingBag, Trash2 } from 'lucide-react';
+import { BookOpen, Trophy, Zap, Play, ShoppingBag, Trash2, Gamepad2, Coins } from 'lucide-react';
 import { vocabularyList } from '../data/vocabulary';
 import { useGame } from '../context/GameContext';
 
@@ -44,33 +44,83 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-            {/* Stats / Features Grid */}
-            <section className="grid md:grid-cols-3 gap-8">
-                <div className="bg-white p-8 rounded-2xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-2 transition-transform">
-                    <div className="w-16 h-16 bg-indigo-100 rounded-xl border-2 border-slate-900 flex items-center justify-center mb-6 text-indigo-600 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                        <BookOpen className="w-8 h-8" />
-                    </div>
-                    <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase">총 단어 수</h3>
-                    <p className="text-5xl font-black text-indigo-600 mb-2">{vocabularyList.length}</p>
-                    <p className="text-slate-600 font-bold">Unit 1부터 12까지<br />핵심 필수 영단어 수록</p>
+            {/* HOW TO PLAY Section (New) */}
+            <section className="max-w-5xl mx-auto px-4">
+                <div className="text-center mb-8">
+                    <span className="bg-slate-900 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">Guide</span>
+                    <h2 className="text-3xl font-black text-slate-900 mt-2">HOW TO PLAY</h2>
                 </div>
 
-                <div className="bg-white p-8 rounded-2xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-2 transition-transform">
-                    <div className="w-16 h-16 bg-emerald-100 rounded-xl border-2 border-slate-900 flex items-center justify-center mb-6 text-emerald-600 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                        <Trophy className="w-8 h-8" />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {/* Step 1 */}
+                    <div className="bg-white p-6 rounded-xl border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div className="absolute top-0 right-0 bg-slate-900 text-white px-3 py-1 rounded-bl-xl font-black text-xs">STEP 1</div>
+                        <div className="w-12 h-12 bg-blue-100 rounded-lg border-2 border-slate-900 flex items-center justify-center mb-4 text-blue-600">
+                            <BookOpen className="w-6 h-6" />
+                        </div>
+                        <h3 className="font-black text-lg mb-1">STUDY</h3>
+                        <p className="text-sm text-slate-600 font-bold leading-tight">Unit 1~12<br />단어 학습</p>
                     </div>
-                    <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase">보상 획득</h3>
-                    <p className="text-slate-600 font-medium">
+
+                    {/* Step 2 */}
+                    <div className="bg-white p-6 rounded-xl border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div className="absolute top-0 right-0 bg-slate-900 text-white px-3 py-1 rounded-bl-xl font-black text-xs">STEP 2</div>
+                        <div className="w-12 h-12 bg-rose-100 rounded-lg border-2 border-slate-900 flex items-center justify-center mb-4 text-rose-600">
+                            <Gamepad2 className="w-6 h-6" />
+                        </div>
+                        <h3 className="font-black text-lg mb-1">QUIZ</h3>
+                        <p className="text-sm text-slate-600 font-bold leading-tight">퀴즈 풀고<br />미션 클리어</p>
+                    </div>
+
+                    {/* Step 3 */}
+                    <div className="bg-white p-6 rounded-xl border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div className="absolute top-0 right-0 bg-slate-900 text-white px-3 py-1 rounded-bl-xl font-black text-xs">STEP 3</div>
+                        <div className="w-12 h-12 bg-yellow-100 rounded-lg border-2 border-slate-900 flex items-center justify-center mb-4 text-yellow-600">
+                            <Coins className="w-6 h-6" />
+                        </div>
+                        <h3 className="font-black text-lg mb-1">EARN</h3>
+                        <p className="text-sm text-slate-600 font-bold leading-tight">코인 획득<br />(+보너스!)</p>
+                    </div>
+
+                    {/* Step 4 */}
+                    <div className="bg-white p-6 rounded-xl border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div className="absolute top-0 right-0 bg-slate-900 text-white px-3 py-1 rounded-bl-xl font-black text-xs">STEP 4</div>
+                        <div className="w-12 h-12 bg-purple-100 rounded-lg border-2 border-slate-900 flex items-center justify-center mb-4 text-purple-600">
+                            <ShoppingBag className="w-6 h-6" />
+                        </div>
+                        <h3 className="font-black text-lg mb-1">SHOP</h3>
+                        <p className="text-sm text-slate-600 font-bold leading-tight">전설의 펫<br />수집하기</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Stats / Features Grid */}
+            <section className="grid md:grid-cols-3 gap-8 px-4 max-w-5xl mx-auto">
+                <div className="bg-white p-6 rounded-2xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-2 transition-transform">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-xl border-2 border-slate-900 flex items-center justify-center mb-4 text-indigo-600 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+                        <BookOpen className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-black text-slate-900 mb-2 uppercase">총 단어 수</h3>
+                    <p className="text-4xl font-black text-indigo-600 mb-2">{vocabularyList.length}</p>
+                    <p className="text-slate-600 font-bold text-sm">Unit 1부터 12까지<br />핵심 필수 영단어 수록</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-2 transition-transform">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-xl border-2 border-slate-900 flex items-center justify-center mb-4 text-emerald-600 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+                        <Trophy className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-black text-slate-900 mb-2 uppercase">보상 획득</h3>
+                    <p className="text-slate-600 font-medium text-sm">
                         문제를 맞추고 <strong>VocaCoin</strong>을 모으세요. 모은 코인으로 상점에서 멋진 펫을 분양받을 수 있습니다!
                     </p>
                 </div>
 
-                <div className="bg-white p-8 rounded-2xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-2 transition-transform">
-                    <div className="w-16 h-16 bg-amber-100 rounded-xl border-2 border-slate-900 flex items-center justify-center mb-6 text-amber-600 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
-                        <Zap className="w-8 h-8" />
+                <div className="bg-white p-6 rounded-2xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-2 transition-transform">
+                    <div className="w-12 h-12 bg-amber-100 rounded-xl border-2 border-slate-900 flex items-center justify-center mb-4 text-amber-600 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+                        <Zap className="w-6 h-6" />
                     </div>
-                    <h3 className="text-2xl font-black text-slate-900 mb-2 uppercase">파워 업</h3>
-                    <p className="text-slate-600 font-medium">
+                    <h3 className="text-xl font-black text-slate-900 mb-2 uppercase">파워 업</h3>
+                    <p className="text-slate-600 font-medium text-sm">
                         미국식 원어민 발음과 재미있는 인터랙티브 퀴즈로 여러분의 영어 실력을 200% 충전하세요.
                     </p>
                 </div>
