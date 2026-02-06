@@ -1,11 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Trophy, Zap, Play, ShoppingBag } from 'lucide-react';
+import { BookOpen, Trophy, Zap, Play, ShoppingBag, Trash2 } from 'lucide-react';
 import { vocabularyList } from '../data/vocabulary';
+import { useGame } from '../context/GameContext';
 
 const Home: React.FC = () => {
+    const { resetGame } = useGame();
+
+    const handleReset = () => {
+        if (window.confirm("⚠️ 정말로 모든 데이터를 초기화하시겠습니까?\n\n코인, 펫, 레벨 진행 상황이 모두 삭제되며 복구할 수 없습니다.")) {
+            if (window.confirm("❗ 진짜요? 모든 노력이 사라집니다!")) {
+                resetGame();
+                alert("초기화 완료. 처음부터 다시 시작합니다!");
+                window.location.reload();
+            }
+        }
+    };
+
     return (
-        <div className="space-y-16">
+        <div className="space-y-16 pb-12">
             {/* Hero Section */}
             <section className="text-center py-12 px-4 max-w-4xl mx-auto">
                 <div className="inline-block px-4 py-1 bg-yellow-400 border-2 border-slate-900 rounded-full font-black text-sm mb-6 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] transform -rotate-2">
@@ -62,6 +75,17 @@ const Home: React.FC = () => {
                     </p>
                 </div>
             </section>
+
+            {/* Reset Button Section */}
+            <div className="flex justify-center pt-8 border-t-2 border-slate-100">
+                <button
+                    onClick={handleReset}
+                    className="flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors text-sm font-bold"
+                >
+                    <Trash2 className="w-4 h-4" />
+                    데이터 초기화 (Reset Progress)
+                </button>
+            </div>
         </div>
     );
 };

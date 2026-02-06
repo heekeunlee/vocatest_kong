@@ -8,6 +8,7 @@ interface GameContextType {
     addCoins: (amount: number) => void;
     buyPet: (pet: Pet) => boolean;
     equipPet: (petId: string) => void;
+    resetGame: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -82,6 +83,19 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const resetGame = () => {
+        // 1. Reset State
+        setProfile({
+            coins: 100,
+            unlockedPets: ['egg'],
+            equippedPet: 'egg'
+        });
+
+        // 2. Clear LocalStorage
+        localStorage.removeItem('vocab_game_profile'); // Coins & Pets
+        localStorage.removeItem('vocab_adventure_progress'); // Level Stars
+    };
+
     return (
         <GameContext.Provider value={{
             coins: profile.coins,
@@ -89,7 +103,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             equippedPet: profile.equippedPet,
             addCoins,
             buyPet,
-            equipPet
+            equipPet,
+            resetGame
         }}>
             {children}
         </GameContext.Provider>
